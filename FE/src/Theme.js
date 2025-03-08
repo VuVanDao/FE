@@ -29,18 +29,24 @@ import {
 //   },
 // });
 const theme = extendTheme({
-  colorScheme: {
+  trelloCustom: {
+    appBarHeight: "48px",
+    boardBarHeight: "58px",
+  },
+  colorSchemes: {
     light: {
       palette: {
-        primary: teal,
+        primary: teal, //primary.main
         secondary: deepOrange,
       },
+      spacing: (factor) => `${0.25 * factor}rem`,
     },
     dark: {
       palette: {
         primary: cyan,
         secondary: orange,
       },
+      spacing: (factor) => `${0.25 * factor}rem`,
     },
   },
 });
