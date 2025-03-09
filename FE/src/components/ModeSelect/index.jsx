@@ -27,15 +27,15 @@ const ModeSelect = () => {
         onChange={handleChange}
       >
         <MenuItem value={"light"}>
-          <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
+          <Box style={{ display: "flex", gap: "5px", alignItems: "center" }}>
             <LightModeIcon fontSize="small" /> Light
-          </div>
+          </Box>
         </MenuItem>
         <MenuItem value={"dark"}>
-          <div style={{ display: "flex", gap: "5px", alignItems: "center" }}>
+          <Box style={{ display: "flex", gap: "5px", alignItems: "center" }}>
             <NightlightIcon fontSize="small" />
             Dark
-          </div>
+          </Box>
         </MenuItem>
         <MenuItem value={"system"}>
           <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
