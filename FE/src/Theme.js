@@ -1,13 +1,5 @@
 import { experimental_extendTheme as extendTheme } from "@mui/material";
-import {
-  blue,
-  cyan,
-  deepOrange,
-  orange,
-  red,
-  teal,
-  yellow,
-} from "@mui/material/colors";
+import { deepOrange, orange } from "@mui/material/colors";
 
 // const theme = createTheme({
 //   palette: {
@@ -36,14 +28,14 @@ const theme = extendTheme({
   colorSchemes: {
     light: {
       palette: {
-        primary: teal, //primary.main,primary.light
+        // primary: teal, //primary.main,primary.light
         secondary: deepOrange,
       },
       spacing: (factor) => `${0.25 * factor}rem`,
     },
     dark: {
       palette: {
-        primary: cyan,
+        // primary: cyan,
         secondary: orange,
       },
       spacing: (factor) => `${0.25 * factor}rem`,
@@ -60,7 +52,9 @@ const theme = extendTheme({
     },
     MuiInputLabel: {
       styleOverrides: {
-        root: ({ theme }) => ({ color: theme.palette.primary.main }),
+        root: ({ theme }) => ({
+          color: theme.palette.mode === "dark" ? "#90caf9" : "white",
+        }),
       },
     },
     MuiCssBaseline: {
@@ -83,19 +77,24 @@ const theme = extendTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: ({ theme }) => {
+          console.log(theme);
           return {
-            color: theme.palette.primary.main,
+            color: theme.palette.mode === "dark" ? "#90caf9" : "white",
             ".MuiOutlinedInput-notchedOutline": {
-              borderColor: theme.palette.primary.light,
+              borderColor: theme.palette.mode === "dark" ? "#90caf9" : "white",
             },
-            // "MuiInputBase-input": {
-            //   backgroundColor: theme.palette.primary.light,
-            //   Color: theme.palette.primary.light,
-            // },
+            "& .css-1i1js26-MuiSvgIcon-root-MuiSelect-icon": {
+              borderColor:
+                theme.palette.mode === "dark" ? "primary.main" : "white",
+            },
             "&:hover": {
               ".MuiOutlinedInput-notchedOutline": {
-                borderColor: theme.palette.primary.main,
+                borderColor:
+                  theme.palette.mode === "dark" ? "#90caf9" : "white",
               },
+            },
+            "& fieldSet": {
+              borderWidth: "1px !important",
             },
           };
         },

@@ -6,15 +6,16 @@ import AddToDriveIcon from "@mui/icons-material/AddToDrive";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { BorderColor } from "@mui/icons-material";
 const STYLE_COMMON = {
-  color: "primary.main",
+  color: (theme) => (theme.palette.mode === "dark" ? "primary.main" : "white"),
   "& .MuiSvgIcon-root": {
-    color: "primary.main",
+    color: (theme) =>
+      theme.palette.mode === "dark" ? "primary.main" : "white",
   },
   display: "flex",
   alignItems: "center",
   padding: "5px 10px",
-  // bgcolor: "white",
   "&:hover": {
     bgcolor: "primary.50",
   },
@@ -31,7 +32,9 @@ const BoardBar = () => {
         justifyContent: "space-between",
         overflowX: "auto",
         gap: 2,
-        borderTop: "1px solid #00bfa5",
+        borderBottom: "1px solid white",
+        bgcolor: (theme) =>
+          theme.palette.mode === "dark" ? "#34495e" : "#1976d2",
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
@@ -67,7 +70,20 @@ const BoardBar = () => {
         />
       </Box>
       <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
-        <Button variant="outlined" startIcon={<AddCircleOutlineIcon />}>
+        <Button
+          variant="outlined"
+          startIcon={<AddCircleOutlineIcon />}
+          sx={{
+            borderColor: (theme) =>
+              theme.palette.mode === "dark" ? "primary.main" : "white",
+            color: (theme) =>
+              theme.palette.mode === "dark" ? "primary.main" : "white",
+            "&:hover": {
+              borderColor: (theme) =>
+                theme.palette.mode === "dark" ? "primary.main" : "white",
+            },
+          }}
+        >
           Invite
         </Button>
 
@@ -78,6 +94,7 @@ const BoardBar = () => {
               width: 35,
               height: 35,
             },
+            gap: "10px",
           }}
         >
           <Tooltip title="vanDao">

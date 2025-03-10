@@ -30,6 +30,10 @@ const Started = () => {
   return (
     <Box>
       <Button
+        sx={{
+          color: (theme) =>
+            theme.palette.mode === "dark" ? "primary.main" : "white",
+        }}
         id="basic-button-workspaces"
         aria-controls={open ? "basic-menu-workspaces" : undefined}
         aria-haspopup="true"

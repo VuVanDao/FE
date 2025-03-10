@@ -36,6 +36,10 @@ const WorkSpaces = () => {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
         endIcon={open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+        sx={{
+          color: (theme) =>
+            theme.palette.mode === "dark" ? "primary.main" : "white",
+        }}
       >
         Dashboard
       </Button>

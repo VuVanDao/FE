@@ -18,13 +18,41 @@ const ModeSelect = () => {
   };
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-      <InputLabel id="demo-select-small-label">Mode</InputLabel>
+      <InputLabel
+        id="demo-select-small-label"
+        sx={{
+          color: (theme) =>
+            theme.palette.mode === "dark" ? "primary.main" : "white",
+          "&.Mui-focused": {
+            color: (theme) =>
+              theme.palette.mode === "dark" ? "primary.main" : "white",
+          },
+        }}
+      >
+        Mode
+      </InputLabel>
       <Select
         labelId="demo-select-small-label"
         id="demo-select-small"
         value={mode}
         label="Mode"
         onChange={handleChange}
+        sx={{
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: (theme) =>
+              theme.palette.mode === "dark" ? "primary.main" : "white",
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: (theme) =>
+              theme.palette.mode === "dark" ? "primary.main" : "white",
+          },
+          ".MuiSvgIcon-root": {
+            color: (theme) =>
+              theme.palette.mode === "dark" ? "primary.main" : "white",
+          },
+          color: (theme) =>
+            theme.palette.mode === "dark" ? "primary.main" : "white",
+        }}
       >
         <MenuItem value={"light"}>
           <Box style={{ display: "flex", gap: "5px", alignItems: "center" }}>

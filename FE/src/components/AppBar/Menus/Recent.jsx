@@ -1,10 +1,4 @@
-import {
-  Check,
-  Cloud,
-  ContentCopy,
-  ContentCut,
-  ContentPaste,
-} from "@mui/icons-material";
+import { Check } from "@mui/icons-material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import {
@@ -24,12 +18,17 @@ const Recent = () => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
   return (
     <Box>
       <Button
+        sx={{
+          color: (theme) =>
+            theme.palette.mode === "dark" ? "primary.main" : "white",
+        }}
         id="basic-button-workspaces"
         aria-controls={open ? "basic-menu-workspaces" : undefined}
         aria-haspopup="true"

@@ -1,16 +1,20 @@
 import { alpha, Box, styled } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 const SearchInput = () => {
+  const [inputValue, setInputValue] = useState("");
+  const HandleOnChange = (e) => {
+    console.log(e);
+    setInputValue(e);
+  };
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
     padding: "0 10px",
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.primary.light, 0.15),
-    "&:hover": {
-      backgroundColor: alpha(theme.palette.primary.light, 0.25),
-    },
+    // "&:hover": {
+    //   backgroundColor: alpha(theme.palette.primary.light, 0.25),
+    // },
     marginLeft: 0,
     width: "100%",
     [theme.breakpoints.up("sm")]: {
@@ -30,7 +34,6 @@ const SearchInput = () => {
   }));
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: theme.palette.primary.main,
-    // color: "inherit",
     width: "100%",
     "& .MuiInputBase-input": {
       padding: theme.spacing(2, 1, 1, 0),
@@ -47,13 +50,23 @@ const SearchInput = () => {
   }));
   return (
     <Box>
-      <Search sx={{ minWidth: 120 }}>
+      <Search
+        sx={{
+          minWidth: 120,
+          bgcolor: (theme) =>
+            theme.palette.mode === "dark"
+              ? alpha(theme.palette.primary.light, 0.25)
+              : "white",
+        }}
+      >
         <SearchIconWrapper>
           <SearchIcon />
         </SearchIconWrapper>
         <StyledInputBase
           placeholder="Search…"
           inputProps={{ "aria-label": "search" }}
+          value={inputValue}
+          onChange={(e) => HandleOnChange(e.target.value)}
         />
       </Search>
     </Box>
