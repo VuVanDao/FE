@@ -20,10 +20,14 @@ import { deepOrange, orange } from "@mui/material/colors";
 //     },
 //   },
 // });
+const APP_BAR_HEIGHT = "58px";
+const BOARD_BAR_HEIGHT = "60px";
+const BOARD_BAR_CONTENT = `calc(100vh - ${APP_BAR_HEIGHT} - ${BOARD_BAR_HEIGHT})`;
 const theme = extendTheme({
   trelloCustom: {
-    appBarHeight: "58px",
-    boardBarHeight: "60px",
+    appBarHeight: APP_BAR_HEIGHT,
+    boardBarHeight: BOARD_BAR_HEIGHT,
+    boardContentHeight: BOARD_BAR_CONTENT,
   },
   colorSchemes: {
     light: {
@@ -68,7 +72,7 @@ const theme = extendTheme({
             backgroundColor: "#bdc3c7",
             borderRadius: "8px",
           },
-          "*::-webkit-scroll-bar-thumb:hover": {
+          "*::-webkit-scrollbar-thumb:hover": {
             backgroundColor: "#00b894",
           },
         },
@@ -77,7 +81,7 @@ const theme = extendTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: ({ theme }) => {
-          console.log(theme);
+          // console.log(theme);
           return {
             color: theme.palette.mode === "dark" ? "#90caf9" : "white",
             ".MuiOutlinedInput-notchedOutline": {
@@ -97,6 +101,15 @@ const theme = extendTheme({
               borderWidth: "1px !important",
             },
           };
+        },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          "&.MuiTypography-body1": {
+            fontSize: "0.875rem",
+          },
         },
       },
     },

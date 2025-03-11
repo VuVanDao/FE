@@ -4,8 +4,6 @@ import {
   Button,
   Input,
   InputAdornment,
-  InputBase,
-  TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -84,24 +82,10 @@ const AppBar = () => {
           >
             Create
           </Button>
-          <Input
-            sx={{
-              "&:hover .MuiInput-root::before": {
-                borderBottomColor: "transparent",
-              },
-              "&.MuiInput-root::before": {
-                borderBottomColor: "transparent",
-              },
-              "&.MuiInput-root::after": {
-                borderBottomColor: "transparent",
-              },
-              border: "1px solid white",
-            }}
-          />
         </Box>
       </Box>
       <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
-        <InputBase
+        <Input
           label="Outlined"
           variant="outlined"
           value={inputValue}
@@ -109,6 +93,15 @@ const AppBar = () => {
           onChange={(e) => setInputValue(e.target.value)}
           sx={{
             border: "1px solid white",
+            "&:hover .MuiInput-root::before": {
+              borderBottomColor: "transparent",
+            },
+            "&.MuiInput-root::before": {
+              borderBottomColor: "transparent",
+            },
+            "&.MuiInput-root::after": {
+              borderBottomColor: "transparent",
+            },
             borderColor: (theme) =>
               theme.palette.mode === "dark" ? "primary.main" : "white",
             padding: "3px 10px",

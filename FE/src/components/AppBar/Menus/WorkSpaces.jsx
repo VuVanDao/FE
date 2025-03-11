@@ -41,16 +41,13 @@ const WorkSpaces = () => {
             theme.palette.mode === "dark" ? "primary.main" : "white",
         }}
       >
-        Dashboard
+        Workspaces
       </Button>
       <Menu
         id="basic-menu-workspaces"
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button-workspaces",
-        }}
       >
         <MenuItem>
           <ListItemIcon>
@@ -61,7 +58,6 @@ const WorkSpaces = () => {
             ⌘X
           </Typography>
         </MenuItem>
-
         <MenuItem>
           <ListItemIcon>
             <ContentCopy fontSize="small" />

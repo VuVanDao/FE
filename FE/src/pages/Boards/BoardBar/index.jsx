@@ -93,6 +93,14 @@ const BoardBar = () => {
             "& .MuiAvatar-root": {
               width: 35,
               height: 35,
+              color: (theme) =>
+                theme.palette.mode === "dark" ? "primary.main" : "white",
+              borderColor: (theme) =>
+                theme.palette.mode === "dark" ? "primary.main" : "white",
+              cursor: "pointer",
+              "&:first-of-type": {
+                bgcolor: "#a4b0be",
+              },
             },
             gap: "10px",
           }}
