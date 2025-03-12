@@ -1,12 +1,12 @@
 import { Avatar, AvatarGroup, Box, Button, Chip, Tooltip } from "@mui/material";
 import React from "react";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import AttractionsSharpIcon from "@mui/icons-material/AttractionsSharp";
+import PublicIcon from "@mui/icons-material/Public";
 import AddToDriveIcon from "@mui/icons-material/AddToDrive";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { BorderColor } from "@mui/icons-material";
+import { capitalizeFirstLetter } from "~/utils/formatter";
 const STYLE_COMMON = {
   color: (theme) => (theme.palette.mode === "dark" ? "primary.main" : "white"),
   "& .MuiSvgIcon-root": {
@@ -20,7 +20,8 @@ const STYLE_COMMON = {
     bgcolor: "primary.50",
   },
 };
-const BoardBar = () => {
+const BoardBar = (props) => {
+  let { board } = props;
   return (
     <Box
       px={2}
@@ -40,13 +41,13 @@ const BoardBar = () => {
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
         <Chip
           icon={<DashboardIcon />}
-          label="with icon"
+          label={capitalizeFirstLetter(board?.title)}
           clickable
           sx={STYLE_COMMON}
         />
         <Chip
-          icon={<AttractionsSharpIcon />}
-          label="with icon"
+          icon={<PublicIcon />}
+          label={capitalizeFirstLetter(board?.type)}
           clickable
           sx={STYLE_COMMON}
         />

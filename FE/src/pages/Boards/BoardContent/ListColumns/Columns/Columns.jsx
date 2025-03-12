@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Box, Tooltip, Typography } from "@mui/material";
 import { Cloud, ContentCopy, ContentCut } from "@mui/icons-material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import DoNotDisturbOnIcon from "@mui/icons-material/DoNotDisturbOn";
@@ -23,7 +15,9 @@ import {
   MenuItem,
 } from "@mui/material";
 import ListCard from "./ListCards/ListCards";
-const Columns = () => {
+import { mapOrder } from "~/utils/sort";
+const Columns = ({ column }) => {
+  const orderCards = mapOrder(column?.cards, column?.cardOrderIds, "_id");
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -67,7 +61,7 @@ const Columns = () => {
             sx={{ fontWeight: "700", fontSize: "1rem" }}
             variant="body2"
           >
-            Column title
+            {column?.title}
           </Typography>
           <Box>
             <Tooltip title="More options">
@@ -134,7 +128,7 @@ const Columns = () => {
           </Box>
         </Box>
         {/*list card in column content */}
-        <ListCard />
+        <ListCard cards={orderCards} />
         {/* column footer */}
         <Box
           sx={{

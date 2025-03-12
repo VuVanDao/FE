@@ -3,7 +3,7 @@ import React from "react";
 import { Box } from "@mui/material";
 import Card from "./Card/Card";
 
-const ListCards = () => {
+const ListCards = ({ cards }) => {
   return (
     <>
       <Box
@@ -34,14 +34,9 @@ const ListCards = () => {
           },
         }}
       >
-        <Card />
-        <Card temporaryMediaMedia />
-        <Card temporaryMediaMedia />
-        <Card temporaryMediaMedia />
-        <Card temporaryMediaMedia />
-        <Card temporaryMediaMedia />
-        <Card temporaryMediaMedia />
-        <Card temporaryMediaMedia />
+        {cards?.map((card) => (
+          <Card key={card._id} card={card} />
+        ))}
       </Box>
     </>
   );

@@ -4,7 +4,7 @@ import { Box, Button } from "@mui/material";
 import Columns from "./Columns/Columns";
 import AddIcon from "@mui/icons-material/Add";
 import theme from "~/Theme";
-const ListColumns = () => {
+const ListColumns = ({ columns }) => {
   return (
     <>
       {/* bao boc cac column */}
@@ -23,9 +23,9 @@ const ListColumns = () => {
           },
         }}
       >
-        <Columns />
-        <Columns />
-        <Columns />
+        {columns?.map((column) => (
+          <Columns key={column._id} column={column} />
+        ))}
         {/* btn add column */}
         <Box
           sx={{
