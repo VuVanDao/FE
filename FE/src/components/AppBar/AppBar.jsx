@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import ModeSelect from "~/components/ModeSelect";
+import ModeSelect from "~/components/ModeSelect/ModeSelect";
 import AppsIcon from "@mui/icons-material/Apps";
 import SvgIcon from "@mui/material/SvgIcon";
 import { ReactComponent as trelloIcon } from "~/assets/trello.svg";
@@ -16,7 +16,6 @@ import WorkSpaces from "./Menus/WorkSpaces";
 import Recent from "./Menus/Recent";
 import Started from "./Menus/Started";
 import Templates from "./Menus/Templates";
-// import SearchInput from "./Menus/SearchInput";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Profiles from "./Menus/Profiles";
@@ -93,8 +92,8 @@ const AppBar = () => {
           onChange={(e) => setInputValue(e.target.value)}
           sx={{
             border: "1px solid white",
-            "&:hover .MuiInput-root::before": {
-              borderBottomColor: "transparent",
+            "&:hover ": {
+              // borderBottomColor: "red !important",
             },
             "&.MuiInput-root::before": {
               borderBottomColor: "transparent",
