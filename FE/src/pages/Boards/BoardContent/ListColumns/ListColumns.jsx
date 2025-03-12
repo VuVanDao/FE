@@ -1,12 +1,18 @@
 import React from "react";
-
 import { Box, Button } from "@mui/material";
 import Columns from "./Columns/Columns";
 import AddIcon from "@mui/icons-material/Add";
-import theme from "~/Theme";
+
+import {
+  SortableContext,
+  horizontalListSortingStrategy,
+} from "@dnd-kit/sortable";
 const ListColumns = ({ columns }) => {
   return (
-    <>
+    <SortableContext
+      items={columns?.map((c) => c._id)}
+      strategy={horizontalListSortingStrategy}
+    >
       {/* bao boc cac column */}
       <Box
         sx={{
@@ -49,7 +55,7 @@ const ListColumns = ({ columns }) => {
           </Button>
         </Box>
       </Box>
-    </>
+    </SortableContext>
   );
 };
 

@@ -13,11 +13,11 @@ export const capitalizeFirstLetter = (val) => {
 /**
  * Example:
  */
-const stringTest = "trungquandev";
-const capString = capitalizeFirstLetter(stringTest);
+// const stringTest = "trungquandev";
+// const capString = capitalizeFirstLetter(stringTest);
 
-console.log("stringTest:", stringTest);
-console.log("capString:", capString);
+// console.log("stringTest:", stringTest);
+// console.log("capString:", capString);
 /**
  * Results:
  *
