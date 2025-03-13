@@ -10,10 +10,32 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+
 const Card = ({ card }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: card._id, data: { ...card } });
+  const dndKitCardStyles = {
+    transform: CSS.Translate.toString(transform),
+    transition,
+    touchAction: "none",
+    opacity: isDragging ? 0.5 : undefined,
+  };
+
   return (
     <>
       <MuiCard
+        ref={setNodeRef}
+        style={dndKitCardStyles}
+        {...attributes}
+        {...listeners}
         sx={{
           cursor: "pointer",
           boxShadow: "0 14px 28px 0 rgba(0, 0, 0, 0.05)",
