@@ -15,6 +15,7 @@ import {
 import { arrayMove } from "@dnd-kit/sortable";
 import Columns from "./ListColumns/Columns/Columns";
 import Card from "./ListColumns/Columns/ListCards/Card/Card";
+import { cloneDeep } from "lodash";
 const ACTIVE_DRAG_ITEM_TYPE = {
   column: "ACTIVE_DRAG_ITEM_TYPE_COLUMN",
   card: "ACTIVE_DRAG_ITEM_TYPE_CARD",
@@ -27,9 +28,15 @@ const BoardContent = (props) => {
   const [activeDragItemType, setActiveDragItemType] = useState(null);
   const [activeDragItemData, setActiveDragItemData] = useState(null);
   useEffect(() => {
-    const orderColumn = mapOrder(board?.columns, board?.columnOrderIds, "_id");
-    setOrderColumnState(orderColumn);
+    setOrderColumnState(mapOrder(board?.columns, board?.columnOrderIds, "_id"));
   }, [board]);
+
+  const findColumnByCardId = (cardId) => {
+    console.log(cardId);
+    return orderColumnState.find((column) =>
+      column.cards.map((card) => card._id)?.includes(cardId)
+    );
+  };
   const handleDragStart = (event) => {
     console.log(event);
     setActiveDragItemId(event?.active?.id);
@@ -40,10 +47,81 @@ const BoardContent = (props) => {
     );
     setActiveDragItemData(event?.active?.data?.current);
   };
+  const handleDragOver = (event) => {
+    console.log("------------------------");
+    if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.column) {
+      return;
+    }
+    console.log(event);
+    const { active, over } = event;
+    if (!over || !active) return;
+    const {
+      id: activeDraggingCardId,
+      data: { current: activeDraggingCardData },
+    } = active;
+    const {
+      id: overDraggingCardId,
+      data: { current: overDraggingCardData },
+    } = over;
+    const activeColumn = findColumnByCardId(activeDraggingCardId);
+    const overColumn = findColumnByCardId(overDraggingCardId);
+    if (!activeColumn || !overColumn) return;
+    if (activeColumn._id !== overColumn._id) {
+      console.log("activeColumn._id !== overColumn._id");
+
+      setOrderColumnState((prevColumns) => {
+        const overCardIndex = overColumn?.cards?.findIndex(
+          //tim index overCard noi activeCard sap duoc tha
+          (card) => card._id === overDraggingCardId
+        );
+        // console.log("overCardIndex", overCardIndex);
+        let newCardIndex;
+        const isBelowOverItem =
+          active.rect.current.translated &&
+          active.rect.current.translated.top > over.rect.top + over.rect.height;
+        const modifier = isBelowOverItem ? 1 : 0;
+        newCardIndex =
+          overCardIndex >= 0
+            ? overCardIndex + modifier
+            : overColumn?.cards.length + 1;
+
+        const nextColumns = cloneDeep(prevColumns);
+
+        const nextActiveColumn = nextColumns.find(
+          (column) => column._id === activeColumn._id
+        );
+        const nextOverColumn = nextColumns.find(
+          (column) => column._id === overColumn._id
+        );
+        if (nextActiveColumn) {
+          nextActiveColumn.cards = nextActiveColumn.cards.filter(
+            (card) => card._id !== activeDraggingCardId
+          );
+          nextActiveColumn.cardOrderIds = nextActiveColumn.cards.map(
+            (card) => card._id
+          );
+        }
+        if (nextOverColumn) {
+          nextOverColumn.cards = nextOverColumn.cards.filter(
+            (card) => card._id !== activeDraggingCardId
+          );
+          nextOverColumn.cards = nextOverColumn.cards.toSpliced(
+            newCardIndex,
+            0,
+            activeDraggingCardData
+          );
+          nextOverColumn.cardOrderIds = nextOverColumn.cards.map(
+            (card) => card._id
+          );
+        }
+        return nextColumns;
+      });
+    }
+  };
   const handleDragEnd = (event) => {
     console.log(event);
     const { active, over } = event;
-    if (!over) return;
+    if (!over || !active) return;
     if (active.id !== over.id) {
       const oldIndex = orderColumnState.findIndex((c) => c._id === active.id); //tim vi tri cu cua column
       const newIndex = orderColumnState.findIndex((c) => c._id === over.id); //tim vi tri moi cua column
@@ -54,6 +132,9 @@ const BoardContent = (props) => {
     setActiveDragItemId(null);
     setActiveDragItemType(null);
     setActiveDragItemData(null);
+    if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.card) {
+      console.log("card");
+    }
   };
 
   const pointerSensor = useSensor(PointerSensor, {
@@ -84,6 +165,7 @@ const BoardContent = (props) => {
       onDragEnd={handleDragEnd}
       sensors={sensors}
       onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
     >
       <Box
         sx={{
