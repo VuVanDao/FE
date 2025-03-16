@@ -188,6 +188,21 @@ export const mockData = {
           },
         ],
       },
+      {
+        _id: "column-id-04",
+        boardId: "board-id-01",
+        title: "Empty Column 04",
+        cardOrderIds: ["card-id-14"],
+        cards: [
+          {
+            _id: "card-id-14-placeholderCard",
+            boardId: "board-id-01",
+            columnId: "column-id-04",
+            title: "Title of card 14",
+            FE_placeholderCard: true,
+          },
+        ],
+      },
     ],
   },
 };

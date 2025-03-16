@@ -24,3 +24,11 @@ export const capitalizeFirstLetter = (val) => {
  * stringTest: Of course, nothing changes =))
  * capString: Trungquandev
  */
+export const generatePlaceholderCard = (column) => {
+  return {
+    _id: `${column._id}-placeholder-card`,
+    boardId: column.boardId,
+    columnId: column._id,
+    FE_placeholderCard: true,
+  };
+};

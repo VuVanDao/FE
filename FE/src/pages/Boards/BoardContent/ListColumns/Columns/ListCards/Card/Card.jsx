@@ -44,6 +44,9 @@ const Card = ({ card }) => {
             theme.palette.mode === "dark" ? "black" : "white",
           color: (theme) => (theme.palette.mode === "dark" ? "white" : "black"),
           overflow: "unset",
+          opacity: card?.FE_placeholderCard ? "0" : "1",
+          // overflow: card?.FE_placeholderCard ? "none" : "block",
+          height: card?.FE_placeholderCard ? "0px" : "unset",
         }}
       >
         {card?.cover && (
