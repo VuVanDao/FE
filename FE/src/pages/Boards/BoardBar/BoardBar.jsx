@@ -39,12 +39,14 @@ const BoardBar = (props) => {
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-        <Chip
-          icon={<DashboardIcon />}
-          label={capitalizeFirstLetter(board?.title)}
-          clickable
-          sx={STYLE_COMMON}
-        />
+        <Tooltip title={board?.description}>
+          <Chip
+            icon={<DashboardIcon />}
+            label={capitalizeFirstLetter(board?.title)}
+            clickable
+            sx={STYLE_COMMON}
+          />
+        </Tooltip>
         <Chip
           icon={<PublicIcon />}
           label={capitalizeFirstLetter(board?.type)}

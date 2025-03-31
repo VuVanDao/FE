@@ -72,6 +72,9 @@ const BoardContent = (props) => {
         overCardIndex >= 0
           ? overCardIndex + modifier
           : overColumn?.cards.length + 1;
+      console.log("isBelowOverItem", isBelowOverItem);
+      console.log("modifier", modifier);
+      console.log("newCardIndex", newCardIndex);
 
       const nextColumns = cloneDeep(prevColumns); // clone orderColumnState , orderColumnState chua list cac column
 

@@ -20,7 +20,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Profiles from "./Menus/Profiles";
 import theme from "~/Theme";
-import { AccountCircle, Search } from "@mui/icons-material";
+import { Search } from "@mui/icons-material";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 const AppBar = () => {
   const [inputValue, setInputValue] = useState("");
