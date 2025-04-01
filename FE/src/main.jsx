@@ -4,12 +4,23 @@ import { CssBaseline } from "@mui/material";
 import { Experimental_CssVarsProvider as CssVarsProvider } from "@mui/material";
 import theme from "~/Theme.js";
 import App from "~/App.jsx";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <CssVarsProvider theme={theme}>
-      <CssBaseline />
-      <App />
-    </CssVarsProvider>
-  </StrictMode>
+  <CssVarsProvider theme={theme}>
+    <CssBaseline />
+    <App />
+    <ToastContainer
+      position="bottom-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick={false}
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="light"
+    />
+  </CssVarsProvider>
 );

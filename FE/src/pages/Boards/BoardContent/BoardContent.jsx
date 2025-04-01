@@ -5,23 +5,22 @@ import { mapOrder } from "~/utils/sort";
 import {
   DndContext,
   PointerSensor,
-  MouseSensor,
-  TouchSensor,
+  // MouseSensor,
+  // TouchSensor,
   useSensor,
   useSensors,
   DragOverlay,
   defaultDropAnimationSideEffects,
   closestCorners,
   pointerWithin,
-  rectIntersection,
   getFirstCollision,
-  closestCenter,
 } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import Columns from "./ListColumns/Columns/Columns";
 import Card from "./ListColumns/Columns/ListCards/Card/Card";
 import { cloneDeep, isEmpty } from "lodash";
 import { generatePlaceholderCard } from "~/utils/formatter";
+import { MouseSensor, TouchSensor } from "~/customLibraries/DndKitSensor";
 const ACTIVE_DRAG_ITEM_TYPE = {
   column: "ACTIVE_DRAG_ITEM_TYPE_COLUMN",
   card: "ACTIVE_DRAG_ITEM_TYPE_CARD",

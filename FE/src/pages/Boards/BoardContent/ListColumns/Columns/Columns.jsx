@@ -20,6 +20,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import CloseIcon from "@mui/icons-material/Close";
+import { toast } from "react-toastify";
 
 const Columns = ({ column }) => {
   const {
@@ -45,8 +46,10 @@ const Columns = ({ column }) => {
   const toggleOpenNewCardForm = () => setNewCardForm(!openNewCardForm);
   const addNewCard = () => {
     if (!newCardTitle) {
+      toast.error("plz type your card title", { position: "top-center" });
       return;
     }
+    toast.success("add card complete");
     setNewCardTitle("");
     toggleOpenNewCardForm(!openNewCardForm);
   };
@@ -208,6 +211,7 @@ const Columns = ({ column }) => {
                 value={newCardTitle}
                 placeholder="Card title"
                 autoFocus
+                data-no-dnd="true"
                 onChange={(e) => setNewCardTitle(e.target.value)}
                 sx={{
                   border: "1px solid white",
