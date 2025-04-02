@@ -9,16 +9,20 @@ import {
   horizontalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { toast } from "react-toastify";
-const ListColumns = ({ columns }) => {
+const ListColumns = ({ columns, createNewColumn, createNewCard }) => {
   const [openNewColumnForm, setNewColumnForm] = useState(false);
   const [newColumnTitle, setNewColumnTitle] = useState("");
   const toggleOpenNewColumnForm = () => setNewColumnForm(!openNewColumnForm);
-  const addNewColumn = () => {
+  const addNewColumn = async () => {
     if (!newColumnTitle) {
       toast.error("plz type your column title");
       return;
     }
-    toast.success("add new card");
+    const newColumnData = {
+      title: newColumnTitle,
+    };
+    await createNewColumn(newColumnData);
+    toast.success("add new column");
     setNewColumnTitle("");
     toggleOpenNewColumnForm(!openNewColumnForm);
   };
@@ -44,7 +48,11 @@ const ListColumns = ({ columns }) => {
         }}
       >
         {columns?.map((column) => (
-          <Columns key={column._id} column={column} />
+          <Columns
+            key={column._id}
+            column={column}
+            createNewCard={createNewCard}
+          />
         ))}
         {/* btn add column */}
         {!openNewColumnForm ? (

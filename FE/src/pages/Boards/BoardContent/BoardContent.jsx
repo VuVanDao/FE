@@ -27,7 +27,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
 };
 
 const BoardContent = (props) => {
-  const { board } = props;
+  const { board, createNewColumn, createNewCard } = props;
   const [orderColumnState, setOrderColumnState] = useState([]);
   const [activeDragItemId, setActiveDragItemId] = useState(null);
   const [activeDragItemType, setActiveDragItemType] = useState(null);
@@ -336,7 +336,11 @@ const BoardContent = (props) => {
           p: "6px 0",
         }}
       >
-        <ListColumns columns={orderColumnState} />
+        <ListColumns
+          columns={orderColumnState}
+          createNewColumn={createNewColumn}
+          createNewCard={createNewCard}
+        />
         <DragOverlay dropAnimation={customDropAnimation}>
           {!activeDragItemType && null}
           {activeDragItemId &&

@@ -22,7 +22,7 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import CloseIcon from "@mui/icons-material/Close";
 import { toast } from "react-toastify";
 
-const Columns = ({ column }) => {
+const Columns = ({ column, createNewCard }) => {
   const {
     attributes,
     listeners,
@@ -44,11 +44,16 @@ const Columns = ({ column }) => {
   const [openNewCardForm, setNewCardForm] = useState(false);
   const [newCardTitle, setNewCardTitle] = useState("");
   const toggleOpenNewCardForm = () => setNewCardForm(!openNewCardForm);
-  const addNewCard = () => {
+  const addNewCard = async () => {
     if (!newCardTitle) {
       toast.error("plz type your card title", { position: "top-center" });
       return;
     }
+    const newCardData = {
+      title: newCardTitle,
+      columnId: column._id,
+    };
+    await createNewCard(newCardData);
     toast.success("add card complete");
     setNewCardTitle("");
     toggleOpenNewCardForm(!openNewCardForm);
