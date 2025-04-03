@@ -27,7 +27,7 @@ const ACTIVE_DRAG_ITEM_TYPE = {
 };
 
 const BoardContent = (props) => {
-  const { board, createNewColumn, createNewCard } = props;
+  const { board, createNewColumn, createNewCard, moveColumns } = props;
   const [orderColumnState, setOrderColumnState] = useState([]);
   const [activeDragItemId, setActiveDragItemId] = useState(null);
   const [activeDragItemType, setActiveDragItemType] = useState(null);
@@ -183,7 +183,7 @@ const BoardContent = (props) => {
       );
     }
   };
-  const handleDragEnd = (event) => {
+  const handleDragEnd = async (event) => {
     // console.log(event);
     const { active, over } = event;
     if (!over || !active) return;
@@ -248,6 +248,7 @@ const BoardContent = (props) => {
         const newIndex = orderColumnState.findIndex((c) => c._id === over.id); //tim vi tri moi cua column
         const dndOrderColumn = arrayMove(orderColumnState, oldIndex, newIndex); //sap xep lai column keo tha
         // const dndOrderColumnIds = dndOrderColumn.map((c) => c._id);
+        await moveColumns(dndOrderColumn);
         setOrderColumnState(dndOrderColumn);
         // console.log("dndOrderColumn", dndOrderColumn);
       }
