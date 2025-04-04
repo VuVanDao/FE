@@ -1,7 +1,6 @@
 import { Box } from "@mui/material";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import ListColumns from "./ListColumns/ListColumns";
-import { mapOrder } from "~/utils/sort";
 import {
   DndContext,
   PointerSensor,
@@ -21,13 +20,20 @@ import Card from "./ListColumns/Columns/ListCards/Card/Card";
 import { cloneDeep, isEmpty } from "lodash";
 import { generatePlaceholderCard } from "~/utils/formatter";
 import { MouseSensor, TouchSensor } from "~/customLibraries/DndKitSensor";
+
 const ACTIVE_DRAG_ITEM_TYPE = {
   column: "ACTIVE_DRAG_ITEM_TYPE_COLUMN",
   card: "ACTIVE_DRAG_ITEM_TYPE_CARD",
 };
 
 const BoardContent = (props) => {
-  const { board, createNewColumn, createNewCard, moveColumns } = props;
+  const {
+    board,
+    createNewColumn,
+    createNewCard,
+    moveColumns,
+    moveCardInSameColumn,
+  } = props;
   const [orderColumnState, setOrderColumnState] = useState([]);
   const [activeDragItemId, setActiveDragItemId] = useState(null);
   const [activeDragItemType, setActiveDragItemType] = useState(null);
@@ -36,7 +42,8 @@ const BoardContent = (props) => {
     useState(null);
   const lastOverId = useRef(null);
   useEffect(() => {
-    setOrderColumnState(mapOrder(board?.columns, board?.columnOrderIds, "_id"));
+    console.log(board?.columns);
+    setOrderColumnState(board?.columns);
   }, [board]);
 
   const findColumnByCardId = (cardId) => {
@@ -71,9 +78,9 @@ const BoardContent = (props) => {
         overCardIndex >= 0
           ? overCardIndex + modifier
           : overColumn?.cards.length + 1;
-      console.log("isBelowOverItem", isBelowOverItem);
-      console.log("modifier", modifier);
-      console.log("newCardIndex", newCardIndex);
+      // console.log("isBelowOverItem", isBelowOverItem);
+      // console.log("modifier", modifier);
+      // console.log("newCardIndex", newCardIndex);
 
       const nextColumns = cloneDeep(prevColumns); // clone orderColumnState , orderColumnState chua list cac column
 
@@ -143,7 +150,7 @@ const BoardContent = (props) => {
     }
   };
   const handleDragOver = (event) => {
-    console.log("------------------------");
+    // console.log("------------------------");
     if (activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.column) {
       return;
     }
@@ -230,14 +237,20 @@ const BoardContent = (props) => {
           newCardIndex
         ); // sap xep lai cards
         // console.log("dndOrderCards", dndOrderCards);
+        const dndOrderCardsIds = dndOrderCards.map((c) => c._id);
         setOrderColumnState((prevColumns) => {
           const nextColumn = cloneDeep(prevColumns);
           const targetColumn = nextColumn.find((c) => c._id === overColumn._id);
           targetColumn.cards = dndOrderCards;
-          targetColumn.cardOrderIds = dndOrderCards.map((c) => c._id);
+          targetColumn.cardOrderIds = dndOrderCardsIds;
           // console.log("targetColumn", targetColumn);
           return nextColumn;
         });
+        moveCardInSameColumn(
+          dndOrderCards,
+          dndOrderCardsIds,
+          oldColumnWhenDraggingCard._id
+        );
       }
     }
 
@@ -248,8 +261,8 @@ const BoardContent = (props) => {
         const newIndex = orderColumnState.findIndex((c) => c._id === over.id); //tim vi tri moi cua column
         const dndOrderColumn = arrayMove(orderColumnState, oldIndex, newIndex); //sap xep lai column keo tha
         // const dndOrderColumnIds = dndOrderColumn.map((c) => c._id);
-        await moveColumns(dndOrderColumn);
         setOrderColumnState(dndOrderColumn);
+        await moveColumns(dndOrderColumn);
         // console.log("dndOrderColumn", dndOrderColumn);
       }
     }
@@ -319,6 +332,7 @@ const BoardContent = (props) => {
     },
     [activeDragItemType, orderColumnState]
   );
+
   return (
     <DndContext
       onDragEnd={handleDragEnd}

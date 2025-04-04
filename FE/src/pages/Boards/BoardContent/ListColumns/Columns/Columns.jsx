@@ -15,7 +15,6 @@ import {
   MenuItem,
 } from "@mui/material";
 import ListCard from "./ListCards/ListCards";
-import { mapOrder } from "~/utils/sort";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
@@ -39,7 +38,7 @@ const Columns = ({ column, createNewCard }) => {
     opacity: isDragging ? 0.5 : undefined,
   };
 
-  const orderCards = mapOrder(column?.cards, column?.cardOrderIds, "_id");
+  const orderCards = column.cards;
 
   const [openNewCardForm, setNewCardForm] = useState(false);
   const [newCardTitle, setNewCardTitle] = useState("");
