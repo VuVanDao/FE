@@ -33,6 +33,8 @@ const BoardContent = (props) => {
     createNewCard,
     moveColumns,
     moveCardInSameColumn,
+    moveCardInDifferentColumn,
+    deleteColumnDetails,
   } = props;
   const [orderColumnState, setOrderColumnState] = useState([]);
   const [activeDragItemId, setActiveDragItemId] = useState(null);
@@ -42,7 +44,7 @@ const BoardContent = (props) => {
     useState(null);
   const lastOverId = useRef(null);
   useEffect(() => {
-    console.log(board?.columns);
+    // console.log(board?.columns);
     setOrderColumnState(board?.columns);
   }, [board]);
 
@@ -58,7 +60,8 @@ const BoardContent = (props) => {
     active,
     over,
     activeColumn,
-    activeDraggingCardId
+    activeDraggingCardId,
+    triggerFrom
   ) => {
     setOrderColumnState((prevColumns) => {
       //prevColumns: orderColumnState
@@ -130,6 +133,14 @@ const BoardContent = (props) => {
           (card) => card._id
         );
       }
+      if (triggerFrom === "handleDragEnd") {
+        moveCardInDifferentColumn(
+          activeDraggingCardId,
+          oldColumnWhenDraggingCard._id,
+          nextOverColumn._id,
+          nextColumns
+        );
+      }
       // console.log("nextColumns", nextColumns);
       return nextColumns; //bạn đang thay đổi dữ liệu bên trong nextColumns thông qua các biến nextActiveColumn và nextOverColumn,
       //  và điều đó ảnh hưởng đến nextColumns.
@@ -186,7 +197,8 @@ const BoardContent = (props) => {
         active,
         over,
         activeColumn,
-        activeDraggingCardId
+        activeDraggingCardId,
+        "handleDragOver"
       );
     }
   };
@@ -221,7 +233,8 @@ const BoardContent = (props) => {
           active,
           over,
           activeColumn,
-          activeDraggingCardId
+          activeDraggingCardId,
+          "handleDragEnd"
         );
       } else {
         // 2 card cung column
@@ -355,6 +368,7 @@ const BoardContent = (props) => {
           columns={orderColumnState}
           createNewColumn={createNewColumn}
           createNewCard={createNewCard}
+          deleteColumnDetails={deleteColumnDetails}
         />
         <DragOverlay dropAnimation={customDropAnimation}>
           {!activeDragItemType && null}

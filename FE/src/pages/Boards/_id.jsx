@@ -3,17 +3,20 @@ import React, { useEffect, useState } from "react";
 import AppBar from "~/components/AppBar/AppBar";
 import BoardBar from "./BoardBar/BoardBar";
 import BoardContent from "./BoardContent/BoardContent";
-import { mockData } from "~/apis/mock-data";
+// import { mockData } from "~/apis/mock-data";
 import {
   createNewCardAPI,
   createNewColumnAPI,
+  deleteColumnDetailsApi,
   fetchBoardDetailAPi,
+  moveCardToDifferentColumnApi,
   updateBoardDetailAPi,
   updateColumnDetailAPi,
 } from "~/apis";
 import { isEmpty } from "lodash";
 import { generatePlaceholderCard } from "~/utils/formatter";
 import { mapOrder } from "~/utils/sort";
+import { toast } from "react-toastify";
 function Board() {
   const [board, setBoard] = useState(null);
   useEffect(() => {
@@ -59,12 +62,28 @@ function Board() {
     const newBoard = {
       ...board,
     };
-    newBoard.columns
-      .find((column) => column._id === createdCard.columnId)
-      .cards.push(createdCard);
-    newBoard.columns
-      .find((column) => column._id === createdCard.columnId)
-      .cardOrderIds.push(createdCard._id);
+
+    if (
+      newBoard.columns
+        .find((column) => column._id === createdCard.columnId)
+        .cards.some((card) => card.FE_placeholderCard)
+    ) {
+      newBoard.columns.find(
+        (column) => column._id === createdCard.columnId
+      ).cards = [createdCard];
+      newBoard.columns.find(
+        (column) => column._id === createdCard.columnId
+      ).cardOrderIds = [createdCard._id];
+    } else {
+      newBoard.columns
+        .find((column) => column._id === createdCard.columnId)
+        .cards.push(createdCard);
+      newBoard.columns
+        .find((column) => column._id === createdCard.columnId)
+        .cardOrderIds.push(createdCard._id);
+    }
+
+    // console.log("🚀 ~ createNewCard ~ newBoard:", newBoard);
 
     setBoard(newBoard);
   };
@@ -97,9 +116,57 @@ function Board() {
       ColumnToUpdate.cardOrderIds = dndOrderCardsIds;
     }
     setBoard(newBoard);
-    // await updateColumnDetailAPi(ColumnToUpdate._id, {
-    //   cardOrderIds: ColumnToUpdate.cardOrderIds,
-    // });
+    await updateColumnDetailAPi(ColumnToUpdate._id, {
+      cardOrderIds: ColumnToUpdate.cardOrderIds,
+    });
+  };
+  const moveCardInDifferentColumn = async (
+    currentCardId,
+    prevColumnId, //column cu
+    nextColumnId, //column moi
+    dndOrderedColumns
+  ) => {
+    // console.log("currentCardId", currentCardId);
+    // console.log("prevColumnId", prevColumnId);
+    // console.log("nextColumnId", nextColumnId);
+    // console.log("dndOrderedColumns", dndOrderedColumns);
+    const dndOrderColumnIds = dndOrderedColumns.map((c) => c._id);
+    const newBoard = {
+      ...board,
+    };
+    newBoard.columns = dndOrderedColumns;
+    newBoard.columnOrderIds = dndOrderColumnIds;
+    setBoard(newBoard);
+    const prevCardOrderIds = dndOrderedColumns.find(
+      (c) => c._id === prevColumnId
+    )?.cardOrderIds;
+    console.log("prevCardOrderIds", prevCardOrderIds);
+    // if (prevCardOrderIds[0].includes("placeholder-card")) {
+    //   prevCardOrderIds = [];
+    // }
+    moveCardToDifferentColumnApi({
+      currentCardId,
+      prevColumnId,
+      prevCardOrderIds,
+      nextColumnId,
+      nextCardOrderIds: dndOrderedColumns.find((c) => c._id === nextColumnId)
+        ?.cardOrderIds,
+    });
+  };
+  const deleteColumnDetails = (columnId) => {
+    console.log("🚀 ~ deleteColumnDetails ~ columnId:", columnId);
+    const newBoard = {
+      ...board,
+    };
+    newBoard.columns = newBoard.columns.filter(
+      (column) => column._id !== columnId
+    );
+    newBoard.columnOrderIds = newBoard.columnOrderIds.filter(
+      (id) => id !== columnId
+    );
+    setBoard(newBoard);
+
+    deleteColumnDetailsApi(columnId).then((res) => toast.success(res.message));
   };
   if (!board) {
     return <Box>Loading...</Box>;
@@ -115,6 +182,8 @@ function Board() {
         createNewCard={createNewCard}
         moveColumns={moveColumns}
         moveCardInSameColumn={moveCardInSameColumn}
+        moveCardInDifferentColumn={moveCardInDifferentColumn}
+        deleteColumnDetails={deleteColumnDetails}
       />
     </Container>
   );
